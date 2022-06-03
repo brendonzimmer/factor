@@ -1,10 +1,13 @@
 use std::{env::args, process::exit, num::IntErrorKind, time::{Duration, Instant}};
 
 // Print factors and time elapsed
-fn print_results(factors: &Vec<u64>, duration: Duration) {
-    if duration.as_secs() > 0 && duration.subsec_millis() > 0 { print!("[{}.{}s] ", duration.as_secs(), duration.subsec_millis()/10); }
+fn print_results(factors: &Vec<u64>, duration: Option<Duration>) {
+    if let Some(time) = duration { if time.as_secs() > 0 { print!("[{}.{}s] ", time.as_secs(), time.subsec_millis()/10); } }
+    else { print!("Found: "); };
+
     if factors.len() > 0 { for factor in factors { print!("{} ", factor); } }
-    else { print!("1"); }
+    else if let Some(_) = duration { print!("Prime: 1"); }
+    else { print!("None"); };
     println!();
 }
 
@@ -14,14 +17,13 @@ fn factor_arg(mut arg: u64) -> (Vec<u64>, Duration) {
 
     let now = Instant::now();
 
-    for i in 2..arg {        
+    for i in 2..arg/2 {       
+        if now.elapsed().as_secs() >= 100 { println!("Timeout: Running for 100s"); print_results(&factors, None); exit(3) }
         if i > arg { break };
         while arg % i == 0 { arg /= i; factors.push(i); };
     };
 
-    let elapsed_time = now.elapsed();
-
-    (factors, elapsed_time)
+    (factors,  now.elapsed())
 }
 
 // Parse input to number
@@ -63,5 +65,5 @@ fn main() {
     let (factors, duration) = factor_arg(arg);
     // println!("{:?}", factors);
 
-    print_results(&factors, duration);
+    print_results(&factors, Some(duration));
 }
