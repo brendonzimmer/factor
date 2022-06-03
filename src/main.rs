@@ -60,6 +60,4 @@ fn main() {
     // println!("{:?}", factors);
 
     print_factors(&factors);
-
-    todo!("Print duration of program.");
 }
