@@ -1,22 +1,27 @@
-use std::{env::args, process::exit, num::IntErrorKind};
+use std::{env::args, process::exit, num::IntErrorKind, time::{Duration, Instant}};
 
-// Print factors
-fn print_factors(factors: &Vec<u32>) {
+// Print factors and time elapsed
+fn print_results(factors: &Vec<u32>, duration: Duration) {
+    if duration.as_secs() > 0 && duration.subsec_millis() > 0 { print!("[{}.{}s] ", duration.as_secs(), duration.subsec_millis()/10); }
     if factors.len() > 0 { for factor in factors { print!("{} ", factor); } }
     else { print!("1"); }
     println!();
 }
 
-// Find factors
-fn factor_arg(mut arg: u32) -> Vec<u32> {
+// Find factors and duration
+fn factor_arg(mut arg: u32) -> (Vec<u32>, Duration) {
     let mut factors: Vec<u32> = vec![];
+
+    let now = Instant::now();
 
     for i in 2..arg {        
         if i > arg { break };
         while arg % i == 0 { arg /= i; factors.push(i); };
     };
 
-    factors
+    let elapsed_time = now.elapsed();
+
+    (factors, elapsed_time)
 }
 
 // Parse input to number
@@ -55,8 +60,8 @@ fn main() {
     let arg = parse_arg(arg);
     // println!("u32: {}", arg);
 
-    let factors = factor_arg(arg);
+    let (factors, duration) = factor_arg(arg);
     // println!("{:?}", factors);
 
-    print_factors(&factors);
+    print_results(&factors, duration);
 }
