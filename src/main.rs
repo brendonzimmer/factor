@@ -2,7 +2,7 @@ use std::{env::args, process::exit, num::IntErrorKind, time::{Duration, Instant}
 
 // Print factors and time elapsed
 fn print_results(factors: &Vec<u32>, duration: Duration) {
-    if duration.as_secs() > 0 && duration.subsec_millis() > 0 { print!("[{}.{}s] ", duration.as_secs(), duration.subsec_millis()/10); }
+    if duration.as_millis() > 0 { print!("[{}.{}s] ", duration.as_secs(), duration.subsec_millis()/10); }
     if factors.len() > 0 { for factor in factors { print!("{} ", factor); } }
     else { print!("1"); }
     println!();
@@ -14,14 +14,12 @@ fn factor_arg(mut arg: u32) -> (Vec<u32>, Duration) {
 
     let now = Instant::now();
 
-    for i in 2..arg {        
+    for i in 2..arg/2 {        
         if i > arg { break };
         while arg % i == 0 { arg /= i; factors.push(i); };
     };
 
-    let elapsed_time = now.elapsed();
-
-    (factors, elapsed_time)
+    (factors, now.elapsed())
 }
 
 // Parse input to number
