@@ -33,7 +33,6 @@ fn parse_arg(mut arg: String) -> u32 {
                 IntErrorKind::InvalidDigit => { eprintln!("Error: Only use (0-9), comma, underscore, or period"); exit(2); },
                 IntErrorKind::PosOverflow => { eprintln!("Error: Integer too large\nMaxInt: {}", u32::MAX); exit(2); }
                 IntErrorKind::Empty => { eprintln!("Error: Must include numbers (0-9)"); exit(2); }
-                // IntErrorKind::NegOverflow => { eprintln!("Error: Integer too small"); exit(2); }
                 _ => { eprintln!("Error: {}", err); exit(2); }
             }
         }
