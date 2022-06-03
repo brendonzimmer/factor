@@ -14,7 +14,7 @@ fn factor_arg(mut arg: u32) -> (Vec<u32>, Duration) {
 
     let now = Instant::now();
 
-    for i in 2..arg/2 {        
+    for i in 2..=arg/2 {
         if i > arg { break };
         while arg % i == 0 { arg /= i; factors.push(i); };
     };
