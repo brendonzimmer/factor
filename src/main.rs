@@ -16,8 +16,7 @@ fn factor_arg(mut arg: u64) -> (Vec<u64>, Duration) {
     let mut factors: Vec<u64> = vec![];
 
     let now = Instant::now();
-
-    for i in 2..=arg/2 {       
+    for i in 2..=(arg as f64).sqrt() as u64 {       
         if now.elapsed().as_secs() >= 100 { println!("Timeout: Running for 100s"); print_results(&factors, None); exit(3) }
         if i > arg { break };
         while arg % i == 0 { arg /= i; factors.push(i); };
