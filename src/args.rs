@@ -52,7 +52,7 @@ type Args = (u64, Option<Duration>);
 
 /// Parses the command line arguments.
 pub fn parse() -> Result<Args, InputError> {
-    println!("args: {:?}", env::args().collect::<Vec<String>>());
+    // println!("args: {:?}", env::args().collect::<Vec<String>>());
     if env::args()
         .find(|arg| arg.eq("-h") || arg.eq("--help"))
         .is_some()
@@ -97,7 +97,7 @@ pub fn parse() -> Result<Args, InputError> {
     }
 
     if len == 4 && args[2].is_none() {
-        return Err(InputError::BadInput); // "Usage: COMMAND <INTEGER> [-d <SECONDS>]"
+        return Err(InputError::BadInput); // "Usage: COMMAND <INTEGER> [-t <SECONDS>]"
     }
 
     let timeout: u64 = match args[3].as_ref().unwrap().trim().parse::<NonZeroU64>() {
